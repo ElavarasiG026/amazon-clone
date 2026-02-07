@@ -2,18 +2,11 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Docker Image') {
-            steps {
-                bat 'docker build -t amazon-clone .'
-            }
-        }
-
-        stage('Run Container') {
+        stage('Serve Website') {
             steps {
                 bat '''
-                docker stop amazon-container || exit 0
-                docker rm amazon-container || exit 0
-                docker run -d -p 8081:80 --name amazon-container amazon-clone
+                echo Starting website server...
+                python -m http.server 7070
                 '''
             }
         }
